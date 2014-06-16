@@ -6,6 +6,7 @@
 """
 
 import argparse
+import daqclass as daq
 
 def argumente():
 	"""Diese Funktion liest Argumente von der Kommandozeile ein."""
@@ -49,7 +50,7 @@ if __name__ == '__main__':
 	opt = argumente()
 
 	# Hier erzeugen wir ein Objekt namens daqcard vom Typ DAQ
-	daqcard = DAQ(opt.device)
+	daqcard = daq.DAQ(opt.device)
 	
 	if (opt.measurement == "threshold"):
 		import schwellenmessung as sm
@@ -59,7 +60,7 @@ if __name__ == '__main__':
 		mr.muonrate(opt,daqcard)
 	elif(opt.measurement == "lifetime"):
 		import dpsuche as dp
-		
+		dp.dpmessung(opt,daqcard)
 	
 	else:
-		print ("Falsches Argument für Measurement-Parameter. Weitere Details unter \"python daq.py -h\"\n") 
+		print ("Falsches Argument fuer Measurement-Parameter. Weitere Details unter \"python daq.py -h\"\n") 

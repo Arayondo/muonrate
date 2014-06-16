@@ -6,6 +6,7 @@
 """
 
 import os
+import time
 
 def condition(current,end,sign):
 	if sign > 0:
@@ -25,7 +26,7 @@ def schwellenmessung(opt,daqcard):
 
 	# Schwellenspannungen und Trigger setzen
 	daqcard.set_trigger(1)
-	
+
 	if (opt.end >= opt.start):
 		sign=1
 	else:

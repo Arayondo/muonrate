@@ -51,14 +51,14 @@ class DAQ():
 			print "Gueltige trigger sind 2 oder 3!"
 			sys.exit(0)
 
-	def measure(self, runtime):
+	def measure(self, runtime, events=1000000000):
 		print "\nBeginne Messung ... (%ss Messzeit)" % runtime
 		self.write("CD", 0.1)
 		self.write("RB", 0.1) # Zaehler zuruecksetzen
 
 		start, counter, t, cycle = 0, 0, 0, 0
-
-		while t<runtime:
+		outputlist=[0,0,0,0,0]
+		while ( (t<runtime) and (outputlist[0]<events) ):
 			self.write("DS")
 			output =  self.read()
 			while not (output.startswith("DS") and len(output) > 5):
