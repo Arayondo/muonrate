@@ -22,7 +22,7 @@ for f in os.listdir(os.getcwd()):
 				splitter=(line.strip()).split()
 				threshhold.append(float(splitter[0]))
 				rate.append(float(splitter[2])/float(splitter[1]))
-				error_rate.append(np.sqrt(float(splitter[2])/float(splitter[1])))
+				error_rate.append(np.sqrt(float(splitter[2]))/float(splitter[1]))
 
 #convert arrays into numpy-arrays
 np_threshhold=np.array(threshhold)
@@ -46,8 +46,11 @@ for n in range(len(np_threshhold)-1):
 	threshhold_diff.append(np_threshhold[n]+(np_threshhold[n+1]-np_threshhold[n])/2)
 np_threshhold_diff=np.array(threshhold_diff)
 
-
-np_error_rate_diff=np.zeros(len(np_rate_diff))
+#calculating error for rate_diff
+error_rate_diff=[]
+for n in range(len(np_threshhold)-1):
+	error_rate_diff.append(np.sqrt(np_error_rate_int[n+1]**2+np_error_rate_int[n]**2))
+np_error_rate_diff=np.array(error_rate_diff)
 
 #plt.semilogy([np_threshhold,np_threshhold_diff],[np_rate_int,np_rate_diff],'x',basey=np.exp(1))
 plt.subplot(111,yscale="log") 
