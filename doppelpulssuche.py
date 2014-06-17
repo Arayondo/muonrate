@@ -1,6 +1,20 @@
 #!/usr/bin/env python
 
-with open("Doppelpulse_2014_06_10_23_29.dat","r") as datafile: #2014-06-03_15-29-27_RAW_1.01_ct
+import argparse
+
+def argumente():
+	"""Diese Funktion liest Argumente von der Kommandozeile ein."""
+	parser = argparse.ArgumentParser()
+
+	parser.add_argument('-f', '--filename', type=str, default=" ",
+	help="Name of the file to analyze.")
+			
+	return parser.parse_args()
+
+opt=argumente()
+
+with open(opt.filename,"r") as datafile: #2014-06-03_15-29-27_RAW_1.01_ct
+	print("Successfully openend "+opt.filename)
 	counter=0
 	lasttime=0
 	linecounter=0
@@ -31,7 +45,14 @@ starttime=ch1[0]
 for i in range(1,len(ch1)):
 	endtime=ch1[i]
 	if ( (endtime-starttime) < 0.00001): #count every two signals with delta t < 10 micro seconds as double pulse
+		print(str(endtime)+"-"+str(starttime)+"="+str(endtime-starttime))
 		dp.append(endtime-starttime)
 	starttime=endtime
 
 print("Counted %s doublepulses" %len(dp) ) 
+filename="Timestamps_"+opt.filename
+with open(filename,"a") as writefile:
+	writefile.write("#Timestamps from file: "+opt.filename+"\n")
+	for n in range(len(dp)):
+		writefile.write(str(dp[n])+"\n")
+print ("Timestamps written into "+filename)
